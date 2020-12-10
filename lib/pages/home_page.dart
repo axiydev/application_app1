@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,17 @@ class _HomePageState extends State<HomePage> {
 void initState(){
 super.initState();
 _checkVer();
+}
+void _dialogPhone(String _word,String m){
+  AwesomeDialog(
+    context:context,
+    dialogType:(_word=='error')?DialogType.ERROR:DialogType.SUCCES,
+    animType: AnimType.BOTTOMSLIDE,
+    title: (_word=='error')?'${_word}':m,
+    desc: 'Info:'+_word,
+    btnCancelOnPress: (){},
+    btnOkOnPress: (){},
+  )..show();
 }
 void _checkVer()async{
   String platformVer;
@@ -96,34 +108,39 @@ void _checkVer()async{
     );
   }
   Widget _version({String v,String st}){
-    return Container(
-      margin:EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      padding:EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(color: Colors.black26,blurRadius: 10,offset: Offset(0,10)),
-        ],
-        color:Colors.grey[400],
-        borderRadius:BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(50),topRight: Radius.circular(50),bottomRight: Radius.circular(15)),
-      ),
-      child:Center(
-        child:RichText(
-          textAlign: TextAlign.center,
-          text:TextSpan(
-            text:v,
-            style: GoogleFonts.spartan(
-              fontSize:20,
-              color:Colors.black,
-              fontWeight: FontWeight.w600
+    return GestureDetector(
+      onTap:(){
+        _dialogPhone(st,v);
+      },
+      child:Container(
+        margin:EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        padding:EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(color: Colors.black26,blurRadius: 10,offset: Offset(0,10)),
+          ],
+          color:Colors.grey[400],
+          borderRadius:BorderRadius.only(topLeft: Radius.circular(15),bottomLeft: Radius.circular(50),topRight: Radius.circular(50),bottomRight: Radius.circular(15)),
+        ),
+        child:Center(
+          child:RichText(
+            textAlign: TextAlign.center,
+            text:TextSpan(
+              text:v,
+              style: GoogleFonts.spartan(
+                  fontSize:20,
+                  color:Colors.black,
+                  fontWeight: FontWeight.w600
+              ),
+              children: [
+                TextSpan(text:st,style:TextStyle(color:Colors.blue,),),
+              ],
             ),
-            children: [
-              TextSpan(text:st,style:TextStyle(color:Colors.blue,),),
-            ],
           ),
         ),
-      ),
+      )
     );
   }
 }
